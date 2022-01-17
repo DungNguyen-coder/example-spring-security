@@ -32,6 +32,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
+        System.out.println("do filter Before Dispatcher Servlet mapping request");
+
         final String requestTokenHeader = request.getHeader("Authorization");
 
         String username = null;

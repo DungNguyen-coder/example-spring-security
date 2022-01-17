@@ -6,9 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Controller {
 
-    @RequestMapping({ "/hello" })
-    public String firstPage() {
-        return "Hello World";
+    @RequestMapping({ "/users" })
+    public String usersPage() {
+        return "Hello ! users can access this page";
+    }
+
+    @RequestMapping({"/admins"})
+    public String adminsPage(){
+        return "Hello ! admins can access this page";
     }
 
 }
