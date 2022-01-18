@@ -1,5 +1,6 @@
 package com.dungnguyen.hellojwt.model;
 
+import com.dungnguyen.hellojwt.Entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -16,6 +17,7 @@ public class JwtResponse implements Serializable {
     private final String status;
     private final String message;
     private final String jwttoken;
+    private final User user;
 
 //    public JwtResponse(String jwttoken) {
 //        this.jwttoken = jwttoken;

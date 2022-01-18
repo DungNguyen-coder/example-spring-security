@@ -52,18 +52,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        System.out.println("method configure line 54");
+//        System.out.println("method configure line 54");
         // We don't need CSRF for this example
-        httpSecurity.csrf().disable()
-                // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/authenticate", "/register", "/user").permitAll().
-                // all other requests need to be authenticated
-                        anyRequest().authenticated();
-                // make sure we use stateless session; session won't be used to
-                // store user's state.
+        httpSecurity.csrf().disable();
+        // dont authenticate this particular request
+        httpSecurity.authorizeRequests().antMatchers("/authenticate", "/register").permitAll();
+
+        httpSecurity.authorizeRequests().antMatchers("/users/**").hasAnyRole("USER", "ADMIN");
+        httpSecurity.authorizeRequests().antMatchers("/admins/**").hasRole("ADMIN");
+        httpSecurity.authorizeRequests().anyRequest().authenticated();
+
+        httpSecurity.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
+        // all other requests need to be authenticated
+        // anyRequest().authenticated();
+        // make sure we use stateless session; session won't be used to
+        // store user's state.
         httpSecurity.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        httpSecurity.logout();
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 //        httpSecurity.addFilterAfter()

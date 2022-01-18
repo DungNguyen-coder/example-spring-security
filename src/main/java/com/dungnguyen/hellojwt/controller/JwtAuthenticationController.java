@@ -31,6 +31,8 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
+
+
     @PostMapping(value = "/register")
     public ResponseEntity<User> registerNewUser(@RequestBody User user){
         System.out.println("register new user");
@@ -39,10 +41,10 @@ public class JwtAuthenticationController {
         return userDetailsService.addNewUser(user);
     }
 
-    @GetMapping("/user")
-    public User getUserById(@PathParam("id") Long id){
-        return userDetailsService.findUserById(id);
-    }
+//    @GetMapping("/user")
+//    public User getUserById(@PathParam("id") Long id){
+//        return userDetailsService.findUserById(id);
+//    }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
@@ -54,18 +56,16 @@ public class JwtAuthenticationController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.ok().body(
-                    new JwtResponse("error", "cant authentication", "")
+                    new JwtResponse("error", "cant authentication", "", null)
             );
         }
-
-
         final User user = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
 
         final String token = jwtTokenUtil.generateToken(user);
 
         return ResponseEntity.ok().body(
-                new JwtResponse("oke", "successful", token)
+                new JwtResponse("oke", "successful", token, user)
         );
     }
 

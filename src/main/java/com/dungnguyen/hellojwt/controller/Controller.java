@@ -16,4 +16,9 @@ public class Controller {
         return "Hello ! admins can access this page";
     }
 
+    @RequestMapping({"/home"})
+    public String homepage(){
+        return "this is homepage";
+    }
+
 }
